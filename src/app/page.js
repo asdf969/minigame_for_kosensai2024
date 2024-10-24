@@ -26,7 +26,7 @@ export default function Home() {
                           ? 'bg-blue-500 text-white shadow-lg scale-105' 
                           : 'bg-white text-gray-600 hover:bg-blue-50'}`}
             >
-              🎴 メモリーゲーム
+              🎴 神経衰弱
             </button>
             <button
               onClick={() => setSelectedGame('blackjack')}
