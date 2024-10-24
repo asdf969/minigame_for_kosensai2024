@@ -121,104 +121,109 @@ const Blackjack = () => {
     setGameStatus('ended');
   };
 
-  return (
-    <div className="max-w-xl mx-auto">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">ブラックジャック</h2>
-        <div className="space-x-4">
-          {gameStatus === 'ready' ? (
-            <button 
-              onClick={startGame}
-              className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 
-                       transition-colors duration-200 shadow-md hover:shadow-lg mb-4"
-            >
-              ゲーム開始
-            </button>
-          ) : (
-            <>
-              <button 
-                onClick={hit}
-                disabled={gameStatus !== 'playing'}
-                className={`bg-blue-500 text-white px-6 py-2 rounded-lg
-                           transition-colors duration-200 shadow-md hover:shadow-lg
-                           ${gameStatus !== 'playing' && 'opacity-50 cursor-not-allowed'}`}
-              >
-                ヒット
-              </button>
-              <button 
-                onClick={stand}
-                disabled={gameStatus !== 'playing'}
-                className={`bg-red-500 text-white px-6 py-2 rounded-lg
-                           transition-colors duration-200 shadow-md hover:shadow-lg
-                           ${gameStatus !== 'playing' && 'opacity-50 cursor-not-allowed'}`}
-              >
-                スタンド
-              </button>
-            </>
-          )}
-          {/* リセットボタン */}
+  // Blackjack.jsの該当部分を修正
+
+return (
+  <div className="max-w-xl mx-auto p-2 sm:p-4">
+    <div className="text-center mb-4 sm:mb-6">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">ブラックジャック</h2>
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
+        {gameStatus === 'ready' ? (
           <button 
-            onClick={resetGame}
-            className="bg-gray-500 text-white px-6 py-2 rounded-lg
-                     hover:bg-gray-600 transition-colors duration-200
-                     shadow-md hover:shadow-lg"
+            onClick={startGame}
+            className="w-full sm:w-auto bg-green-500 text-white px-4 sm:px-6 py-2 rounded-lg 
+                     hover:bg-green-600 transition-colors duration-200 
+                     shadow-md hover:shadow-lg mb-2 sm:mb-4"
           >
-            リセット
+            ゲーム開始
           </button>
-        </div>
-        <div className="text-lg font-semibold text-gray-700 mt-4">
-          {message}
+        ) : (
+          <>
+            <button 
+              onClick={hit}
+              disabled={gameStatus !== 'playing'}
+              className={`w-full sm:w-auto bg-blue-500 text-white px-4 sm:px-6 py-2 rounded-lg
+                         transition-colors duration-200 shadow-md hover:shadow-lg
+                         ${gameStatus !== 'playing' && 'opacity-50 cursor-not-allowed'}`}
+            >
+              ヒット
+            </button>
+            <button 
+              onClick={stand}
+              disabled={gameStatus !== 'playing'}
+              className={`w-full sm:w-auto bg-red-500 text-white px-4 sm:px-6 py-2 rounded-lg
+                         transition-colors duration-200 shadow-md hover:shadow-lg
+                         ${gameStatus !== 'playing' && 'opacity-50 cursor-not-allowed'}`}
+            >
+              スタンド
+            </button>
+          </>
+        )}
+        <button 
+          onClick={resetGame}
+          className="w-full sm:w-auto bg-gray-500 text-white px-4 sm:px-6 py-2 rounded-lg
+                   hover:bg-gray-600 transition-colors duration-200
+                   shadow-md hover:shadow-lg"
+        >
+          リセット
+        </button>
+      </div>
+      <div className="text-base sm:text-lg font-semibold text-gray-700 mt-4">
+        {message}
+      </div>
+    </div>
+
+    {/* カード表示部分 */}
+    <div className="space-y-4 sm:space-y-8">
+      <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <h3 className="font-bold text-gray-700 mb-2">
+          ディーラーの手札
+          {gameStatus === 'ended' && 
+            <span className="text-blue-600 ml-2">
+              ({calculateHand(dealerHand)})
+            </span>
+          }
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {dealerHand.map((card, index) => (
+            <div key={index}
+                 className="border-2 border-gray-200 rounded-lg p-2 sm:p-4 
+                          min-w-[45px] sm:min-w-[60px]
+                          text-center bg-white shadow-sm">
+              <span className={card.suit === '♥' || card.suit === '♦' 
+                            ? 'text-red-500' 
+                            : 'text-gray-800'}>
+                {card.suit}{card.rank}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="space-y-8">
-        <div className="bg-gray-50 rounded-lg p-4">
-          <h3 className="font-bold text-gray-700 mb-2">
-            ディーラーの手札
-            {gameStatus === 'ended' && 
-              <span className="text-blue-600">
-                ({calculateHand(dealerHand)})
+      <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+        <h3 className="font-bold text-gray-700 mb-2">
+          あなたの手札 
+          <span className="text-blue-600 ml-2">
+            ({calculateHand(playerHand)})
+          </span>
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {playerHand.map((card, index) => (
+            <div key={index}
+                 className="border-2 border-gray-200 rounded-lg p-2 sm:p-4 
+                          min-w-[45px] sm:min-w-[60px]
+                          text-center bg-white shadow-sm">
+              <span className={card.suit === '♥' || card.suit === '♦' 
+                            ? 'text-red-500' 
+                            : 'text-gray-800'}>
+                {card.suit}{card.rank}
               </span>
-            }
-          </h3>
-          <div className="flex gap-2">
-            {dealerHand.map((card, index) => (
-              <div key={index}
-                   className="border-2 border-gray-200 rounded-lg p-4 min-w-[60px]
-                            text-center bg-white shadow-sm">
-                <span className={card.suit === '♥' || card.suit === '♦' 
-                              ? 'text-red-500' 
-                              : 'text-gray-800'}>
-                  {card.suit}{card.rank}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-gray-50 rounded-lg p-4">
-          <h3 className="font-bold text-gray-700 mb-2">
-            あなたの手札 
-            <span className="text-blue-600">
-              ({calculateHand(playerHand)})
-            </span>
-          </h3>
-          <div className="flex gap-2">
-            {playerHand.map((card, index) => (
-              <div key={index}
-                   className="border-2 border-gray-200 rounded-lg p-4 min-w-[60px]
-                            text-center bg-white shadow-sm">
-                <span className={card.suit === '♥' || card.suit === '♦' 
-                              ? 'text-red-500' 
-                              : 'text-gray-800'}>
-                  {card.suit}{card.rank}
-                </span>
-              </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
+  </div>
   );
 };
 
