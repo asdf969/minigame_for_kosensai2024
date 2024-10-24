@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 const DIFFICULTIES = {
     easy: { size: 10, colors: 4, moves: 20 },
-    normal: { size: 14, colors: 6, moves: 35 },
+    normal: { size: 14, colors: 6, moves: 30 },
     hard: { size: 18, colors: 8, moves: 40 },
     veryhard: { size: 21, colors: 8, moves: 45 }
   };
@@ -204,6 +204,7 @@ const ColorFlood = () => {
         <p>左上から色を広げて、すべてのマスを同じ色にしましょう！</p>
         <p>制限手数: {maxMoves}手</p>
         <p>ランダムマップなので、リセマラ推奨</p>
+        <p>全ステージクリア確認済み</p>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import MemoryGame from '@/components/MemoryGame';
 import Blackjack from '@/components/Blackjack';
 import TicTacToe from '@/components/TicTacToe';
@@ -13,9 +14,22 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-blue-100 to-purple-100 p-4 sm:p-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8 text-center">
+        <div className="flex justify-center mb-4">
+            <Image
+              src="/images/image.png"  // 画像のパス
+              alt="Game Logo"
+              width={200}  // 画像の幅
+              height={100}  // 画像の高さ
+              priority  // 優先的に読み込む
+              className="rounded-lg shadow-md"
+            />
+          </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
             🎮 ミニゲーム集
           </h1>
+          <p className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
+            スマホでもできます QRコードをチェック‼️
+          </p>
           
           <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 mb-8">
             <button
