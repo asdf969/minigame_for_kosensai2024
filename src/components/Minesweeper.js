@@ -337,7 +337,6 @@ const Minesweeper = () => {
       )}
 
       {/* モバイル向けの操作説明 */}
-      // Minesweeperコンポーネントのreturn部分の最後に追加
         <div className="mt-4 space-y-1">
         <div className="text-xs sm:text-sm text-gray-500 text-center">
             <p>タップでマスを開く</p>
