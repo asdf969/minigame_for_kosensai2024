@@ -209,7 +209,7 @@ const ColorFlood = () => {
   {moves >= maxMoves && !gameWon && (
       <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-lg text-center animate-bounce">
         <p className="font-bold">Game Over!</p>
-        <p className="text-sm">'Play Again'をクリックしてね</p>
+        <p className="text-sm">Play Againをクリックしてね</p>
       </div>
     )}
 
