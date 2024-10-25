@@ -6,6 +6,7 @@ import MemoryGame from '@/components/MemoryGame';
 import Blackjack from '@/components/Blackjack';
 import TicTacToe from '@/components/TicTacToe';
 import ColorFlood from '@/components/ColorFlood';
+import Minesweeper from '@/components/Minesweeper';
 
 
 export default function Home() {
@@ -72,6 +73,16 @@ export default function Home() {
             >
               🎨 Color Flood
             </button>
+            <button
+              onClick={() => setSelectedGame('Minesweeper')}
+              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full text-base sm:text-lg font-semibold 
+                        transition-all duration-200
+                        ${selectedGame === 'Minesweeper' 
+                          ? 'bg-blue-500 text-white shadow-lg scale-105' 
+                          : 'bg-white text-gray-600 hover:bg-blue-50'}`}
+            >
+              💣マインスイーパー
+            </button>
           </div>
         </div>
 
@@ -80,7 +91,7 @@ export default function Home() {
           {selectedGame === 'blackjack' && <Blackjack />}
           {selectedGame === 'tictactoe' && <TicTacToe />}
           {selectedGame === 'colorflood' && <ColorFlood />}
-          {selectedGame === 'minesweeper' && <Minesweeper />}
+          {selectedGame === 'Minesweeper' && <Minesweeper />}
         </div>
       </div>
     </main>

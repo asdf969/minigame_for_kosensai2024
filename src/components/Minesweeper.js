@@ -244,7 +244,6 @@ const Minesweeper = () => {
         return () => clearInterval(timer);
     }, [gameStatus]);
 
-  // 他の関数は同じ
 
   return (
     <div className="flex flex-col items-center p-2 sm:p-4">
@@ -340,10 +339,6 @@ const Minesweeper = () => {
         <div className="mt-4 space-y-1">
         <div className="text-xs sm:text-sm text-gray-500 text-center">
             <p>タップでマスを開く</p>
-            <p>長押し（0.3秒）で旗を立てる/外す</p>
-        </div>
-        <div className="text-xs text-gray-400 text-center">
-            {flagged.flat().filter(Boolean).length} / {mineCount} 🚩
         </div>
         </div>
     </div>
