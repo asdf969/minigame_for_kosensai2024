@@ -64,8 +64,11 @@ const ColorFlood = () => {
 
   // 色を変更
   const floodFill = (newColor) => {
-    if (newColor === currentColor || gameWon || !isPlaying) return;
-
+    // ゲームオーバーまたは勝利時は操作を無効化
+    if (moves >= maxMoves || gameWon) return;
+    
+    if (newColor === currentColor || !isPlaying) return;
+  
     const newBoard = board.map(row => [...row]);
     const oldColor = board[0][0];
     
@@ -79,19 +82,17 @@ const ColorFlood = () => {
       flood(x, y + 1);
       flood(x, y - 1);
     };
-
+  
     flood(0, 0);
     setBoard(newBoard);
     setCurrentColor(newColor);
     setMoves(moves + 1);
-    setHint(null);
-
+  
     // 勝利判定
     const hasWon = newBoard.every(row => row.every(cell => cell === newColor));
     if (hasWon) {
       setGameWon(true);
       setIsPlaying(false);
-      // ハイスコア更新
       if (moves + 1 < highScores[difficulty]) {
         setHighScores(prev => ({
           ...prev,
@@ -159,45 +160,67 @@ const ColorFlood = () => {
   
       {/* カラーパレット - モバイルで2行に */}
       <div className="flex flex-wrap justify-center gap-2 mb-4">
-        {gameColors.map((color, i) => (
-          <button
-            key={i}
-            className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg ${color} 
-                     transition-transform hover:scale-110 active:scale-95
-                     ${color === currentColor ? 'ring-4 ring-gray-400' : ''}`}
-            onClick={() => floodFill(color)}
-          />
-        ))}
-      </div>
+      {gameColors.map((color, i) => (
+        <button
+          key={i}
+          className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg ${color} 
+                   transition-transform hover:scale-110 active:scale-95
+                   ${color === currentColor ? 'ring-4 ring-gray-400' : ''}
+                   ${(moves >= maxMoves || gameWon) ? 'opacity-50 cursor-not-allowed' : ''}`}
+          onClick={() => floodFill(color)}
+          disabled={moves >= maxMoves || gameWon}
+        />
+      ))}
+    </div>
   
       {/* ゲームボード - レスポンシブなサイズ */}
       <div className="max-w-full overflow-x-auto">
-        <div className="border-2 border-gray-200 rounded-lg overflow-hidden inline-block">
-          {board.map((row, y) => (
-            <div key={y} className="flex">
-              {row.map((cell, x) => (
-                <div
-                  key={`${x}-${y}`}
-                  className={`w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 ${cell} 
-                           transition-colors duration-200
-                           border border-gray-700/20`}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
+      <div className={`border-2 border-gray-200 rounded-lg overflow-hidden inline-block
+                    ${(moves >= maxMoves || gameWon) ? 'opacity-50' : ''}`}>
+        {board.map((row, y) => (
+          <div key={y} className="flex">
+            {row.map((cell, x) => (
+              <div
+                key={`${x}-${y}`}
+                className={`w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 ${cell} 
+                         transition-colors duration-200
+                         border border-gray-700/20`}
+              />
+            ))}
+          </div>
+        ))}
       </div>
+    </div>
   
       {/* リセットボタン */}
       <button
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg
-                   hover:bg-blue-600 transition-colors active:bg-blue-700
-                   w-full sm:w-auto"
-        onClick={initGame}
-      >
-        New Game
-      </button>
-  
+      className={`mt-4 px-4 py-2 text-white rounded-lg
+                 w-full sm:w-auto transition-colors
+                 ${(moves >= maxMoves || gameWon)
+                   ? 'bg-green-500 hover:bg-green-600 animate-pulse'
+                   : 'bg-blue-500 hover:bg-blue-600'}
+                 active:bg-blue-700`}
+      onClick={initGame}
+    >
+      {(moves >= maxMoves || gameWon) ? 'Play Again' : 'New Game'}
+    </button>
+    
+  {/* 追加：ゲームオーバー時のオーバーレイメッセージ */}
+  {moves >= maxMoves && !gameWon && (
+      <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-lg text-center animate-bounce">
+        <p className="font-bold">Game Over!</p>
+        <p className="text-sm">'Play Again'をクリックしてね</p>
+      </div>
+    )}
+
+    {gameWon && (
+      <div className="mt-4 p-4 bg-green-100 text-green-700 rounded-lg text-center animate-bounce">
+        <p className="font-bold">Congratulations! 🎉</p>
+        <p className="text-sm">You won in {moves} moves!</p>
+      </div>
+    )}
+
+
       {/* ルール説明 */}
       <div className="mt-6 text-gray-600 text-center max-w-md text-sm sm:text-base px-2">
         <h3 className="font-bold mb-2">How to Play:</h3>
